@@ -1011,6 +1011,8 @@ struct _dcontext_t {
      * but we need some indication so we add a custom field.
      */
     bool currently_stopped;
+
+  void (*build_basic_block_fragment_hook)(app_pc start);
 };
 
 /* sentinel value for dcontext_t* used to indicate

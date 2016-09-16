@@ -5055,6 +5055,13 @@ exit_interp_build_bb(dcontext_t *dcontext, build_bb_t *bb)
     instrlist_clear_and_destroy(dcontext, bb->ilist);
 }
 
+void
+set_build_basic_block_fragment_hook(void *drcontext, void (*func)(app_pc))
+{
+  ASSERT(drcontext != NULL);
+  ((dcontext_t *)drcontext)->build_basic_block_fragment_hook = func;
+}
+
 /* Interprets the application's instructions until the end of a basic
  * block is found, and then creates a fragment for the basic block.
  * DOES NOT look in the hashtable to see if such a fragment already exists!
@@ -5073,6 +5080,11 @@ build_basic_block_fragment(dcontext_t *dcontext, app_pc start, uint initial_flag
 
     /* Neither thin_client nor hotp_only should be building any bbs. */
     ASSERT(!RUNNING_WITHOUT_CODE_CACHE());
+
+    /* dr_printf("build_basic_block_fragment %p in context %p\n", start, dcontext); */
+    if (NULL != dcontext->build_basic_block_fragment_hook) {
+      dcontext->build_basic_block_fragment_hook(start);
+    }
 
     /* ASSUMPTION: image entry is reached via indirect transfer and
      * so will be the start of a bb

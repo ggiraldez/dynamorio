@@ -4130,6 +4130,12 @@ DR_API
 thread_id_t
 dr_get_thread_id(void *drcontext);
 
+/* Hook into build_basic_block_fragment (ggiraldez) */
+DR_API
+void
+set_build_basic_block_fragment_hook(void *drcontext, void (*func)(app_pc));
+
+
 /* DR_API EXPORT BEGIN */
 #ifdef WINDOWS
 /* DR_API EXPORT END */

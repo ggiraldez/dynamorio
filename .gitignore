@@ -1,0 +1,9 @@
+.vagrant/
+build/
+test/
+*.pdf
+*.o
+spikes/*.so
+spikes/test1
+spikes/test2
+
