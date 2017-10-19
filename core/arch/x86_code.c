@@ -89,7 +89,9 @@ dynamo_start(priv_mcontext_t *mc)
     thread_starting(dcontext);
 
     /* Signal other threads for take over. */
-    dynamorio_take_over_threads(dcontext);
+    /* Don't take over all other threads to see if Java will accept the
+       instrumentation of the single thread (ggiraldez) */
+    /* dynamorio_take_over_threads(dcontext); */
 
     /* Set return address */
     mc->pc = canonicalize_pc_target(dcontext, mc->pc);

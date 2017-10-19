@@ -5055,6 +5055,9 @@ exit_interp_build_bb(dcontext_t *dcontext, build_bb_t *bb)
     instrlist_clear_and_destroy(dcontext, bb->ilist);
 }
 
+/*
+ * Interceptor hook for build_basic_block_fragment -- ggiraldez
+ */
 void
 set_build_basic_block_fragment_hook(void *drcontext, void (*func)(app_pc))
 {
@@ -5081,6 +5084,7 @@ build_basic_block_fragment(dcontext_t *dcontext, app_pc start, uint initial_flag
     /* Neither thin_client nor hotp_only should be building any bbs. */
     ASSERT(!RUNNING_WITHOUT_CODE_CACHE());
 
+    /* call interceptor hook -- ggiraldez */
     /* dr_printf("build_basic_block_fragment %p in context %p\n", start, dcontext); */
     if (NULL != dcontext->build_basic_block_fragment_hook) {
       dcontext->build_basic_block_fragment_hook(start);
